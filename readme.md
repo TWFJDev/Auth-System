@@ -20,6 +20,7 @@ DB_PASSWORD=password
 DB_HOST=host
 DB_PORT=port
 DB_NAME=db_name
+```
 
 ## Usage
 
@@ -40,3 +41,4 @@ DB_NAME=db_name
    db_host = os.getenv('DB_HOST')
    db_port = os.getenv('DB_PORT')
    db_name = os.getenv('DB_NAME')
+   ```
