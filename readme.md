@@ -32,4 +32,4 @@ The `.env` file contains the following key-value pairs:
    db_password = os.getenv('DB_PASSWORD')
    db_host = os.getenv('DB_HOST')
    db_port = os.getenv('DB_PORT')
-   db_name = os.getenv('DB_NAME')```
+   db_name = os.getenv('DB_NAME')
