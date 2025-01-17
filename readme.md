@@ -12,7 +12,14 @@ The `.env` file contains the following key-value pairs:
 | `DB_PASSWORD`  | The password for the database user.               | `password`    
 | `DB_HOST`           | The host address of the database server.       | `host url`                           
 | `DB_PORT`           | The port number for database connections. | `port`                                                                  
-| `DB_NAME`           | The name of the database to connect to.      | `db name`                                                              
+| `DB_NAME`           | The name of the database to connect to.      | `db name`
+
+```
+DB_USERNAME=username
+DB_PASSWORD=password
+DB_HOST=host
+DB_PORT=port
+DB_NAME=db_name
 
 ## Usage
 
