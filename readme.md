@@ -31,9 +31,11 @@ DB_NAME=db_name
 
    load_dotenv()
 
-   db_username = os.getenv('DB_USERNAME')
-   db_password = os.getenv('DB_PASSWORD')
-   db_host = os.getenv('DB_HOST')
-   db_port = os.getenv('DB_PORT')
-   db_name = os.getenv('DB_NAME')
+   app_secret = os.getenv('APP_SECRET')
+
+   db_username = os.getenv("DB_USERNAME")
+   db_password = os.getenv("DB_PASSWORD")
+   db_host = os.getenv("DB_HOST")
+   db_port = os.getenv("DB_PORT")
+   db_name = os.getenv("DB_NAME")
    ```
