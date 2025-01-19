@@ -8,6 +8,8 @@ import os
 
 load_dotenv()
 
+app_secret = os.getenv('APP_SECRET')
+
 db_username = os.getenv("DB_USERNAME")
 db_password = os.getenv("DB_PASSWORD")
 db_host = os.getenv("DB_HOST")
@@ -16,11 +18,11 @@ db_name = os.getenv("DB_NAME")
 
 app = Flask(__name__)
 
-app.secret_key = b'emrysdev'
+app.secret_key = f'{app_secret}'.encode()
 app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+mysqlconnector://{db_username}:{db_password}@{db_host}:{db_port}/{db_name}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_HTTPONLY'] = True
-app.permanent_session_lifetime = timedelta(days=7)
+app.permanent_session_lifetime = timedelta(minutes=45)
 
 bcrypt = Bcrypt(app)
 
@@ -31,16 +33,14 @@ db.init_app(app)
 def initialize_database():
     if not hasattr(app, 'db_initialized'):
         try:
-            db.create_all()  # Create all tables
+            db.create_all()
             app.db_initialized = True
         except Exception as e:
             print(f"Database initialization error: {e}")
 
 @app.route('/')
 def home():
-    if 'username' in session:
-        return f"Welcome, {session['username']}! <a href='/logout'>Logout</a>"
-    return "You are not logged in. <a href='/login'>Login</a> or <a href='/register'>Register</a>"
+    return render_template('index.html', session=session)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -60,13 +60,7 @@ def register():
         flash('Registration successful. You can now log in.', 'success')
         return redirect(url_for('login'))
 
-    return '''
-        <form method="post">
-            Username: <input type="text" name="username"><br>
-            Password: <input type="password" name="password"><br>
-            <button type="submit">Register</button>
-        </form>
-    '''
+    return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -78,18 +72,13 @@ def login():
         if user and bcrypt.check_password_hash(user.password, password):
             session['username'] = username
             session.permanent = True
-            flash('You are now logged in!', 'success')
+            flash('Successfully logged in!', 'success')
             return redirect(url_for('home'))
         else:
             flash('Invalid username or password.', 'danger')
 
-    return '''
-        <form method="post">
-            Username: <input type="text" name="username"><br>
-            Password: <input type="password" name="password"><br>
-            <button type="submit">Login</button>
-        </form>
-    '''
+    return render_template('login.html')
+
 
 @app.route('/logout')
 def logout():
