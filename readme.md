@@ -6,15 +6,10 @@ This project uses a `.env` file to store environment variables for database conn
 
 The `.env` file contains the following key-value pairs:
 
-| Variable                 | Description                                                              | Example Value                                                      
-|------------------|----------------------------------------------|---------------------------------------------
-| `DB_USERNAME`  | The username used to access the database. | `username`                                                                    
-| `DB_PASSWORD`  | The password for the database user.               | `password`    
-| `DB_HOST`           | The host address of the database server.       | `host url`                           
-| `DB_PORT`           | The port number for database connections. | `port`                                                                  
-| `DB_NAME`           | The name of the database to connect to.      | `db name`
 
 ```
+APP_SECRET=example_secret
+
 DB_USERNAME=username
 DB_PASSWORD=password
 DB_HOST=host
