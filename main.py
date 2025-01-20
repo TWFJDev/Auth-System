@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from datetime import timedelta
 from models import db, User, KeyInfo
@@ -48,15 +47,15 @@ def initialize_database():
 def home():
     return render_template('index.html', session=session)
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
+@app.route('/sign-up', methods=['GET', 'POST'])
+def sign_up():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
 
         if User.query.filter_by(username=username).first():
             flash('Username already exists. Please choose a different one.', 'danger')
-            return redirect(url_for('register'))
+            return redirect(url_for('sign-up'))
 
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
         new_user = User(username=username, password=hashed_password)
@@ -66,7 +65,7 @@ def register():
         flash('Registration successful. You can now log in.', 'success')
         return redirect(url_for('login'))
 
-    return render_template('register.html')
+    return render_template('sign_up.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
