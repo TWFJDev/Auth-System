@@ -22,7 +22,7 @@ DB_NAME=db_name
 ## Usage
 
 1. **Setting Up the `.env` File**  
-   Create a file named `.env` in the root directory of your project. Copy the structure above and replace the placeholder values with the appropriate credentials provided by your database provider.
+   Create a file named `.env` in the root directory of your project. Copy the structure above and replace the placeholder values with the appropriate credentials provided by your database provider if you are not using sqlite.
 
 2. **Loading Environment Variables**  
    Use a library like [`python-dotenv`](https://pypi.org/project/python-dotenv/) (for Python) or equivalent for your programming language to load the `.env` file. For example, in Python:
