@@ -8,6 +8,8 @@ The `.env` file contains the following key-value pairs:
 
 
 ```
+USE_SQLITE=true
+
 APP_SECRET=example_secret
 
 DB_USERNAME=username
@@ -33,9 +35,15 @@ DB_NAME=db_name
 
    app_secret = os.getenv('APP_SECRET')
 
-   db_username = os.getenv("DB_USERNAME")
-   db_password = os.getenv("DB_PASSWORD")
-   db_host = os.getenv("DB_HOST")
-   db_port = os.getenv("DB_PORT")
-   db_name = os.getenv("DB_NAME")
+   sqlite_bool = os.getenv('USE_SQLITE')
+
+   if sqlite_bool == 'true':
+      db_uri_string = 'sqlite:///auth.sqlite'
+   else:
+      db_username = os.getenv("DB_USERNAME")
+      db_password = os.getenv("DB_PASSWORD")
+      db_host = os.getenv("DB_HOST")
+      db_port = os.getenv("DB_PORT")
+      db_name = os.getenv("DB_NAME")
+      db_uri_string = f"mysql+mysqlconnector://{db_username}:{db_password}@{db_host}:{db_port}/{db_name}"
    ```

@@ -10,16 +10,22 @@ load_dotenv()
 
 app_secret = os.getenv('APP_SECRET')
 
-db_username = os.getenv("DB_USERNAME")
-db_password = os.getenv("DB_PASSWORD")
-db_host = os.getenv("DB_HOST")
-db_port = os.getenv("DB_PORT")
-db_name = os.getenv("DB_NAME")
+sqlite_bool = os.getenv('USE_SQLITE')
+
+if sqlite_bool == 'true':
+    db_uri_string = 'sqlite:///auth.sqlite'
+else:
+    db_username = os.getenv("DB_USERNAME")
+    db_password = os.getenv("DB_PASSWORD")
+    db_host = os.getenv("DB_HOST")
+    db_port = os.getenv("DB_PORT")
+    db_name = os.getenv("DB_NAME")
+    db_uri_string = f"mysql+mysqlconnector://{db_username}:{db_password}@{db_host}:{db_port}/{db_name}"
 
 app = Flask(__name__)
 
 app.secret_key = f'{app_secret}'.encode()
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+mysqlconnector://{db_username}:{db_password}@{db_host}:{db_port}/{db_name}"
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri_string
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.permanent_session_lifetime = timedelta(minutes=45)
