@@ -1,0 +1,80 @@
+{% extends 'layouts/default.jinja' %}
+
+{% block title %} <title>Auth - Dashboard</title> {% endblock %}
+
+{% block custom_css %}
+<!-- Meta Tag for Mobile Viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid pt-5 pb-5">
+    <p class="fs-3 fw-bold mb-0 pt-4 text-center">{{ app_name.replace("_", " ").title() }}</p>
+    <p class="fs-6 opacity-50 mb-0 text-center">All licenses will appear here!</p>
+    
+    <!-- Buttons Section: Adjusted for mobile responsiveness -->
+    <div class="container-fluid pt-4 pb-2 text-center">
+        <button class="btn btn-primary d-inline-block inline-flex text-center mb-2 mb-sm-0">Create Keys</button>
+        <button class="btn btn-primary d-inline-block inline-flex text-center mb-2 mb-sm-0">Add Time To a Key</button>
+        <button class="btn btn-primary d-inline-block inline-flex text-center mb-2 mb-sm-0">Export Keys</button>
+    </div>
+    
+    <div class="container-fluid text-center">
+        <button class="btn btn-danger d-inline-block inline-flex text-center mb-2 mb-sm-0">Delete All Keys</button>
+        <button class="btn btn-danger d-inline-block inline-flex text-center mb-2 mb-sm-0">Delete All Used Keys</button>
+        <button class="btn btn-danger d-inline-block inline-flex text-center mb-2 mb-sm-0">Delete All Unused Keys</button>
+    </div>
+    
+    <!-- Table Section: Use responsive table class for mobile -->
+    <div class="table-responsive p-5">
+        <table id="key-data" class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Key</th>
+                    <th scope="col">Creation Date</th>
+                    <th scope="col">Duration</th>
+                    <th scope="col">Used On</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be populated dynamically -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    var table = $('#key-data').DataTable({
+      "paging": true, // Enables pagination
+      "searching": true, // Adds search functionality
+      "info": true, // Displays table info
+      "processing": true, // Show processing indicator
+      "serverSide": true, // Enables server-side processing
+      "autoWidth": false,  // Prevents forced width expansion
+      "ajax": {
+        "url": "/data/{{ app_name }}", // Fetch data dynamically
+        "type": "GET",
+        "dataSrc": function (json) {
+            if (!json.data || json.data.length === 0) {
+                return []; // Handle empty data gracefully
+            }
+            return json.data;
+        }
+      }
+    });
+
+    document.querySelector('#key-data_wrapper').children[1].children[0].classList.add('table-responsive');
+  });
+</script>
+{% endblock %}
